@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class SceneController : Singleton<SceneController>
 {
+    [Header("References")]
+    [SerializeField] private CanvasGroup loadingScreenCG;
+
     public enum Level
     {
         Services,
@@ -16,7 +19,12 @@ public class SceneController : Singleton<SceneController>
 
     private void Start()
     {
-        LoadScene(Level.MainMenu);
+        TransitionScene(Level.MainMenu);
+    }
+
+    public void TransitionScene(Level scene)
+    {
+        StartCoroutine(LoadScreenLoadScene(scene));
     }
 
     public void LoadScene(Level scene)
@@ -62,6 +70,25 @@ public class SceneController : Singleton<SceneController>
             {
                 SceneManager.UnloadSceneAsync(scene);
             }
+        }
+    }
+
+    private IEnumerator LoadScreenLoadScene(Level scene)
+    {
+        while (loadingScreenCG.alpha < 1f)
+        {
+            loadingScreenCG.alpha += Time.deltaTime;
+
+            yield return null;
+        }
+
+        LoadScene(scene);
+
+        while (loadingScreenCG.alpha > 0f)
+        {
+            loadingScreenCG.alpha -= Time.deltaTime;
+
+            yield return null;
         }
     }
 }
