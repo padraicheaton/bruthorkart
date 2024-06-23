@@ -14,7 +14,8 @@ public class SceneController : Singleton<SceneController>
         MainGame,
         LevelOne,
         MainMenu,
-        CharSelection
+        CharSelection,
+        Sandbox
     }
 
     private void Start()
@@ -51,6 +52,7 @@ public class SceneController : Singleton<SceneController>
         switch (scene)
         {
             case Level.LevelOne:
+            case Level.Sandbox:
                 scenes.Add(Level.MainGame);
                 break;
             default:
