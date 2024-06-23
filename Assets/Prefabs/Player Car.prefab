@@ -225,7 +225,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5733512029083527448}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 4a1abbd9558175d46b32f980d02dfeb4, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -440,5 +440,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   updateMethod: 0
   target: {fileID: 5943696145673323662}
-  offset: {x: 0, y: 0.5, z: -1.5}
+  offset: {x: 0, y: 0.25, z: -1}
   speed: 5
+  lookAheadAmount: 0.25

@@ -2,14 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerConfigurationManager : Singleton<PlayerConfigurationManager>
 {
-    private List<PlayerConfiguration> playerConfigs;
+    [Header("References")]
+    [SerializeField] private PlayerInputManager playerInputManager;
 
     [Header("Settings")]
     [SerializeField] private int maxPlayers;
+
+    private List<PlayerConfiguration> playerConfigs;
+
+    public static UnityAction<PlayerConfiguration> OnPlayerJoined;
 
     protected override void Awake()
     {
@@ -19,6 +25,16 @@ public class PlayerConfigurationManager : Singleton<PlayerConfigurationManager>
     }
 
     public List<PlayerConfiguration> GetPlayerConfigurations() => playerConfigs;
+
+    public void SetPlayerCount(int count)
+    {
+        maxPlayers = count;
+    }
+
+    public int GetPlayerCount()
+    {
+        return playerConfigs.Count;
+    }
 
     public void SetPlayerCar(int index, CarSettings settings)
     {
@@ -45,6 +61,11 @@ public class PlayerConfigurationManager : Singleton<PlayerConfigurationManager>
             input.transform.SetParent(transform);
 
             playerConfigs.Add(new PlayerConfiguration(input));
+
+            if (playerConfigs.Count == maxPlayers)
+                playerInputManager.DisableJoining();
+
+            OnPlayerJoined?.Invoke(playerConfigs[playerConfigs.Count - 1]);
         }
     }
 }

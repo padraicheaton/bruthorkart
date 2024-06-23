@@ -14,6 +14,7 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private Transform target;
     [SerializeField] private Vector3 offset;
     [SerializeField] private float speed;
+    [SerializeField] private float lookAheadAmount;
 
     private void Update()
     {
@@ -35,6 +36,6 @@ public class CameraFollow : MonoBehaviour
 
         transform.position = Vector3.Lerp(transform.position, targetPosition, delta * speed);
 
-        transform.LookAt(target.position);
+        transform.LookAt(target.position + target.forward * lookAheadAmount + target.up * lookAheadAmount);
     }
 }

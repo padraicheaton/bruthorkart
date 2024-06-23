@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 public class PlayerSetupMenuController : MonoBehaviour
@@ -11,6 +12,7 @@ public class PlayerSetupMenuController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private GameObject readyPanel;
     [SerializeField] private Button confirmBtn;
+    [SerializeField] private InputSystemUIInputModule inputSystemUIInputModule;
 
     private float ignoreInputTime = 1.5f;
     private bool inputEnabled;
@@ -18,6 +20,12 @@ public class PlayerSetupMenuController : MonoBehaviour
     private void Start()
     {
         confirmBtn.gameObject.SetActive(false);
+    }
+
+    public void SetupPlayer(PlayerConfiguration config)
+    {
+        config.Input.uiInputModule = inputSystemUIInputModule;
+        SetPlayerIndex(config.PlayerIndex);
     }
 
     public void SetPlayerIndex(int playerIndex)

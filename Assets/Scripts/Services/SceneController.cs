@@ -10,7 +10,8 @@ public class SceneController : Singleton<SceneController>
         Services,
         MainGame,
         LevelOne,
-        MainMenu
+        MainMenu,
+        CharSelection
     }
 
     private void Start()
