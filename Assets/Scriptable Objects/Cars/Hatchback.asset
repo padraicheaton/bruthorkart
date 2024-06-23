@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd2ff9b3a49a60a4db1d859cc38070d3, type: 3}
+  m_Name: Hatchback
+  m_EditorClassIdentifier: 
+  name: Averagino
+  carModel: {fileID: 919132149155446097, guid: 7ef0b3c5cbce8ed4fbdcb415594cda02, type: 3}
+  fowardAccel: 8
+  reverseAccel: 4
+  maxSpeed: 10
+  turnStrength: 60
+  groundDrag: 3
+  airDrag: 0.1
