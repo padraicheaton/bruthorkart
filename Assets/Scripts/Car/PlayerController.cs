@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Camera playerCam;
+    [SerializeField] private PlayerHUDController playerHUDController;
     private PlayerConfiguration playerConfig;
     private PlayerActions inputActions;
 
@@ -25,6 +26,8 @@ public class PlayerController : MonoBehaviour
         playerConfig.Input.onActionTriggered += HandleInput;
 
         SetupSplitCam();
+
+        playerHUDController.Setup(playerConfig);
     }
 
     private Rect[] TwoPlayerCamSettings = {
@@ -70,15 +73,5 @@ public class PlayerController : MonoBehaviour
             carController.UpdateSteeringInput(context.ReadValue<float>());
     }
 
-    // public void OnAccelerateInput(InputAction.CallbackContext context)
-    // {
-    //     if (carController)
-    //         carController.UpdateAccelerateInput(context.ReadValue<float>());
-    // }
-
-    // public void OnSteeringInput(InputAction.CallbackContext context)
-    // {
-    //     if (carController)
-    //         carController.UpdateSteeringInput(context.ReadValue<float>());
-    // }
+    public PlayerConfiguration GetConfig() => playerConfig;
 }
