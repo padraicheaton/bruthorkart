@@ -47,7 +47,7 @@ public class PlayerConfigurationManager : Singleton<PlayerConfigurationManager>
 
         if (playerConfigs.Count == maxPlayers && playerConfigs.All(player => player.IsReady))
         {
-            SceneController.Instance.TransitionScene(SceneController.Level.Sandbox);
+            SceneController.Instance.TransitionScene(SceneController.Level.LevelOne);
         }
     }
 

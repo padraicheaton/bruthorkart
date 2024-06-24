@@ -7,14 +7,18 @@ using UnityEngine.UI;
 public class MainMenuController : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private Button firstSelectBtn;
+    [SerializeField] private Button defaultMenuFirstSelect;
+    [SerializeField] private Button modeSelectFirstSelect;
     [SerializeField] private InputSystemUIInputModule inputSystemUIInputModule;
+    [SerializeField] private CanvasGroup modeSelectParent;
 
     private bool isFirstPlayerSetup = false;
 
     private void Awake()
     {
         PlayerConfigurationManager.OnPlayerJoined += OnPlayerJoined;
+
+        OnModeSelectClose();
     }
 
     private void OnPlayerJoined(PlayerConfiguration playerConfiguration)
@@ -23,9 +27,23 @@ public class MainMenuController : MonoBehaviour
             return;
 
         playerConfiguration.Input.uiInputModule = inputSystemUIInputModule;
-        firstSelectBtn.Select();
+        defaultMenuFirstSelect.Select();
 
         isFirstPlayerSetup = true;
+    }
+
+    public void OnModeSelectOpen()
+    {
+        modeSelectParent.alpha = 1f;
+        modeSelectParent.interactable = modeSelectParent.blocksRaycasts = true;
+        modeSelectFirstSelect.Select();
+    }
+
+    public void OnModeSelectClose()
+    {
+        modeSelectParent.alpha = 0f;
+        modeSelectParent.interactable = modeSelectParent.blocksRaycasts = false;
+        defaultMenuFirstSelect.Select();
     }
 
     public void OnPlayBtnPressed(int playerCount)

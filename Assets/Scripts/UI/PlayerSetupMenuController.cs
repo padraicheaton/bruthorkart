@@ -11,53 +11,66 @@ public class PlayerSetupMenuController : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private GameObject readyPanel;
-    [SerializeField] private Button confirmBtn;
     [SerializeField] private InputSystemUIInputModule inputSystemUIInputModule;
+    [SerializeField] private Button firstSelect;
 
-    private float ignoreInputTime = 1.5f;
-    private bool inputEnabled;
+    [Header("Preview References")]
+    [SerializeField] private Camera carCam;
+    [SerializeField] private GameObject spinnerObj;
+    [SerializeField] private RawImage camPreview;
 
-    private void Start()
-    {
-        confirmBtn.gameObject.SetActive(false);
-    }
+    private int carIndex = 0;
 
     public void SetupPlayer(PlayerConfiguration config)
     {
         config.Input.uiInputModule = inputSystemUIInputModule;
         SetPlayerIndex(config.PlayerIndex);
+
+        RenderTexture rend = new RenderTexture(600, 300, 16);
+        carCam.targetTexture = rend;
+        camPreview.texture = rend;
+
+        SetDisplayedCar(CarDatabase.Instance.First());
+    }
+
+    private void SetDisplayedCar(CarSettings car)
+    {
+        for (int i = spinnerObj.transform.childCount - 1; i >= 0; i--)
+            Destroy(spinnerObj.transform.GetChild(i).gameObject);
+
+        Instantiate(car.carModel, spinnerObj.transform);
+
+        SetCar(car);
+    }
+
+    public void PageLeft()
+    {
+        carIndex = CarDatabase.Instance.Previous(carIndex);
+
+        SetDisplayedCar(CarDatabase.Instance.Get(carIndex));
+    }
+
+    public void PageRight()
+    {
+        carIndex = CarDatabase.Instance.Next(carIndex);
+
+        SetDisplayedCar(CarDatabase.Instance.Get(carIndex));
     }
 
     public void SetPlayerIndex(int playerIndex)
     {
         PlayerIndex = playerIndex;
         titleText.text = $"Player {PlayerIndex + 1}";
-
-        StartCoroutine(EnableInputAfterDelay());
-    }
-
-    IEnumerator EnableInputAfterDelay()
-    {
-        yield return new WaitForSeconds(ignoreInputTime);
-
-        inputEnabled = true;
     }
 
     public void SetCar(CarSettings carSettings)
     {
-        if (!inputEnabled)
-            return;
-
         PlayerConfigurationManager.Instance.SetPlayerCar(PlayerIndex, carSettings);
-
-        confirmBtn.gameObject.SetActive(true);
-        confirmBtn.Select();
     }
 
     public void ReadyPlayer()
     {
         PlayerConfigurationManager.Instance.ReadyPlayer(PlayerIndex);
-        confirmBtn.gameObject.SetActive(false);
 
         readyPanel.SetActive(true);
     }

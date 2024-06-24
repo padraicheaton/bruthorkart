@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Averagino
   carModel: {fileID: 919132149155446097, guid: bed6d2a6468be7a44ba3a142b3b4a905, type: 3}
-  fowardAccel: 8
+  fowardAccel: 30
   reverseAccel: 4
-  maxSpeed: 12
-  turnStrength: 60
+  maxSpeed: 30
+  turnStrength: 80
   groundDrag: 3
   airDrag: 0.1
