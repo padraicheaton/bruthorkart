@@ -16,6 +16,7 @@ public class PlayerConfigurationManager : Singleton<PlayerConfigurationManager>
     private List<PlayerConfiguration> playerConfigs;
 
     public static UnityAction<PlayerConfiguration> OnPlayerJoined;
+    public static UnityAction<PlayerConfiguration> OnPlayerCamSetup;
 
     protected override void Awake()
     {
@@ -68,6 +69,13 @@ public class PlayerConfigurationManager : Singleton<PlayerConfigurationManager>
             OnPlayerJoined?.Invoke(playerConfigs[playerConfigs.Count - 1]);
         }
     }
+
+    public void SetPlayerCam(int index, Camera cam)
+    {
+        playerConfigs[index].Camera = cam;
+
+        OnPlayerCamSetup?.Invoke(playerConfigs[index]);
+    }
 }
 
 public class PlayerConfiguration
@@ -82,4 +90,5 @@ public class PlayerConfiguration
     public int PlayerIndex;
     public bool IsReady;
     public CarSettings CarSettings;
+    public Camera Camera;
 }

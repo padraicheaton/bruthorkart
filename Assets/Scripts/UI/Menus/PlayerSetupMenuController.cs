@@ -26,9 +26,7 @@ public class PlayerSetupMenuController : MonoBehaviour
         config.Input.uiInputModule = inputSystemUIInputModule;
         SetPlayerIndex(config.PlayerIndex);
 
-        RenderTexture rend = new RenderTexture(600, 300, 16);
-        carCam.targetTexture = rend;
-        camPreview.texture = rend;
+        Extensions.PairCameraToImage(carCam, camPreview);
 
         SetDisplayedCar(CarDatabase.Instance.First());
     }

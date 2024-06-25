@@ -30,38 +30,9 @@ public class PlayerController : MonoBehaviour
         playerHUDController.Setup(playerConfig);
     }
 
-    private Rect[] TwoPlayerCamSettings = {
-        new Rect(0, 0, 0.5f, 1f), // Left
-        new Rect(0.5f, 0, 0.5f, 1f) // Right
-     };
-
-    private Rect[] ThreePlayerCamSettings = {
-        new Rect(0, 0.5f, 0.5f, 0.5f), // Top, Left
-        new Rect(0.5f, 0.5f, 0.5f, 0.5f), // Top, Right
-        new Rect(0.25f, 0f, 0.5f, 0.5f), // Bottom, Middle
-    };
-
-    private Rect[] FourPlayerCamSettings = {
-        new Rect(0, 0.5f, 0.5f, 0.5f), // Top, Left
-        new Rect(0.5f, 0.5f, 0.5f, 0.5f), // Top, Right
-        new Rect(0f, 0f, 0.5f, 0.5f), // Bottom, Left
-        new Rect(0.5f, 0f, 0.5f, 0.5f) // Bottom, Right
-    };
     private void SetupSplitCam()
     {
-        int playerCount = PlayerConfigurationManager.Instance.GetPlayerCount();
-
-        if (playerCount == 1)
-            return;
-
-        else if (playerCount == 2)
-            playerCam.rect = TwoPlayerCamSettings[playerConfig.PlayerIndex];
-
-        else if (playerCount == 3)
-            playerCam.rect = ThreePlayerCamSettings[playerConfig.PlayerIndex];
-
-        else
-            playerCam.rect = FourPlayerCamSettings[playerConfig.PlayerIndex];
+        PlayerConfigurationManager.Instance.SetPlayerCam(playerConfig.PlayerIndex, playerCam);
     }
 
     private void HandleInput(InputAction.CallbackContext context)
