@@ -28,7 +28,7 @@ public class PlayerHUDController : MonoBehaviour
     {
         if (playerConfig.PlayerIndex == player.PlayerID)
         {
-            lapCountTxt.text = player.LapsCompleted.ToString();
+            lapCountTxt.text = player.LapsCompleted + "/" + RaceManager.Instance.GetTotalLaps();
         }
     }
 

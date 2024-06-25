@@ -60,7 +60,7 @@ public class WorldBorderTrigger : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.Lerp(Color.green, Color.clear, 0.5f);
+        Gizmos.color = Color.Lerp(Color.green, Color.clear, 0.75f);
         Gizmos.DrawCube(transform.position, GetDimensions());
     }
 }

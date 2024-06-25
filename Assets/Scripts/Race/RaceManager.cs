@@ -37,6 +37,8 @@ public class RaceManager : Singleton<RaceManager>
             }
     }
 
+    public int GetTotalLaps() => NumLaps;
+
 
     public Transform GetClosestCheckpointToPlayerLastGrounded(int id)
     {
