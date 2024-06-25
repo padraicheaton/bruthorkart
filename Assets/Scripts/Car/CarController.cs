@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CarController : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class CarController : MonoBehaviour
     private float steeringInput;
 
     private bool isGrounded;
+
+    public UnityAction<Vector3> OnCarLeftGround;
 
     public void UpdateAccelerateInput(float accelerateInput)
     {
@@ -61,12 +64,26 @@ public class CarController : MonoBehaviour
 
     private void CheckGrounded()
     {
+        bool wasGrounded = isGrounded;
+
         isGrounded = Physics.Raycast(carVisuals.position, Vector3.down, out RaycastHit hit, 1f, whatIsGround);
+
+        if (wasGrounded && !isGrounded)
+        {
+            OnCarLeftGround?.Invoke(ballEngine.position);
+        }
 
         if (isGrounded)
         {
             Quaternion groundAlignRotation = Quaternion.FromToRotation(carVisuals.transform.up, hit.normal) * carVisuals.transform.rotation;
             carVisuals.transform.rotation = Quaternion.Lerp(carVisuals.transform.rotation, groundAlignRotation, Time.deltaTime * groundAlignSpeed);
         }
+    }
+
+    public void OverridePosition(Vector3 resetPos, Quaternion resetRot)
+    {
+        ballEngine.velocity = Vector3.zero;
+        ballEngine.position = resetPos;
+        carVisuals.rotation = resetRot;
     }
 }

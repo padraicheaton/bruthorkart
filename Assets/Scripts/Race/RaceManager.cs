@@ -27,6 +27,49 @@ public class RaceManager : Singleton<RaceManager>
         trackCheckpoints.Add(trackCheckpoint);
     }
 
+    public void RegisterPlayerLastGrounded(int playerID, Vector3 pos)
+    {
+        foreach (RacerData racer in racers)
+            if (racer.PlayerID == playerID)
+            {
+                racer.UpdateLastGrounded(pos);
+                break;
+            }
+    }
+
+
+    public Transform GetClosestCheckpointToPlayerLastGrounded(int id)
+    {
+        Vector3 lastGroundedPos = GetRacer(id).LastPosGrounded;
+
+        float distance = float.MaxValue;
+        Transform resetTform = trackCheckpoints[0].transform;
+
+        foreach (TrackCheckpoint checkpoint in trackCheckpoints)
+        {
+            float chkDist = Vector3.Distance(lastGroundedPos, checkpoint.transform.position);
+
+            if (chkDist < distance)
+            {
+                distance = chkDist;
+                resetTform = checkpoint.transform;
+            }
+        }
+
+        return resetTform;
+    }
+
+    private RacerData GetRacer(int id)
+    {
+        foreach (RacerData racer in racers)
+            if (racer.PlayerID == id)
+            {
+                return racer;
+            }
+
+        return null;
+    }
+
     public void CheckpointPassed(int checkpointID, int playerID)
     {
         foreach (RacerData racer in racers)
@@ -62,6 +105,7 @@ public class RaceManager : Singleton<RaceManager>
         public int PlayerID;
         public List<int> PassedCheckpointIDs;
         public int LapsCompleted;
+        public Vector3 LastPosGrounded; // used for resetting players when needed
 
         public RacerData(int _PlayerID)
         {
@@ -80,6 +124,12 @@ public class RaceManager : Singleton<RaceManager>
         {
             PassedCheckpointIDs = new List<int>();
             LapsCompleted++;
+        }
+
+        public void UpdateLastGrounded(Vector3 pos)
+        {
+            LastPosGrounded = pos;
+            Debug.Log($"Player {PlayerID} last ground {pos}");
         }
     }
 }

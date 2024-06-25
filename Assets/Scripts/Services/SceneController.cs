@@ -8,6 +8,9 @@ public class SceneController : Singleton<SceneController>
     [Header("References")]
     [SerializeField] private CanvasGroup loadingScreenCG;
 
+    [Header("Settings")]
+    [SerializeField] private float loadingScreenFadeSpeed;
+
     public enum Level
     {
         Services,
@@ -20,7 +23,7 @@ public class SceneController : Singleton<SceneController>
 
     private void Start()
     {
-        TransitionScene(Level.MainMenu);
+        LoadScene(Level.MainMenu);
     }
 
     public void TransitionScene(Level scene)
@@ -79,7 +82,7 @@ public class SceneController : Singleton<SceneController>
     {
         while (loadingScreenCG.alpha < 1f)
         {
-            loadingScreenCG.alpha += Time.deltaTime;
+            loadingScreenCG.alpha += Time.deltaTime * loadingScreenFadeSpeed;
 
             yield return null;
         }
@@ -88,7 +91,7 @@ public class SceneController : Singleton<SceneController>
 
         while (loadingScreenCG.alpha > 0f)
         {
-            loadingScreenCG.alpha -= Time.deltaTime;
+            loadingScreenCG.alpha -= Time.deltaTime * loadingScreenFadeSpeed;
 
             yield return null;
         }
