@@ -17,11 +17,7 @@ public class PlayerHUDController : MonoBehaviour
 
         RaceGameController.OnPlayerCompletedLap += OnPlayerCompletedLap;
 
-        WorldBorderTrigger.OnPlayerPassedWorldBorder += config =>
-        {
-            if (playerConfig.PlayerIndex == config.PlayerIndex)
-                StartCoroutine(ShowScreenWhilstResetting());
-        };
+        WorldBorderTrigger.OnPlayerPassedWorldBorder += OnPlayerFallen;
 
         lapCountTxt.text = "0/" + (RaceGameController.Instance as RaceGameController).GetTotalLaps();
     }
@@ -32,6 +28,12 @@ public class PlayerHUDController : MonoBehaviour
         {
             lapCountTxt.text = player.LapsCompleted + "/" + (RaceGameController.Instance as RaceGameController).GetTotalLaps();
         }
+    }
+
+    private void OnPlayerFallen(PlayerConfiguration config)
+    {
+        if (playerConfig.PlayerIndex == config.PlayerIndex)
+            StartCoroutine(ShowScreenWhilstResetting());
     }
 
     private IEnumerator ShowScreenWhilstResetting()
