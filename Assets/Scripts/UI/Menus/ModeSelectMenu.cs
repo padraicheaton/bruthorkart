@@ -43,7 +43,7 @@ public class ModeSelectMenu : MonoBehaviour
     {
         PlayerConfigurationManager.Instance.chosenMode = GameModeDatabase.Instance.Get(modeIndex);
 
-        PlayerConfigurationManager.Instance.chosenLevel = GameModeDatabase.Instance.Get(modeIndex).compatibleLevels[0];
+        PlayerConfigurationManager.Instance.chosenLevel = Extensions.GetRandom(GameModeDatabase.Instance.Get(modeIndex).compatibleLevels);
 
         SceneController.Instance.TransitionScene(SceneController.Level.CharSelection);
     }

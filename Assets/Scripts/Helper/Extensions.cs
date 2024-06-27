@@ -22,4 +22,9 @@ public static class Extensions
     {
         PairCameraToImage(cam, image, image.rectTransform.rect.width, image.rectTransform.rect.height);
     }
+
+    public static T GetRandom<T>(List<T> items)
+    {
+        return items[Random.Range(0, items.Count)];
+    }
 }
