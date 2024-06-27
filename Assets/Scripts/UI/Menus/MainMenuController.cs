@@ -54,6 +54,6 @@ public class MainMenuController : MonoBehaviour
 
     public void OnExitBtnPressed()
     {
-
+        Application.Quit();
     }
 }

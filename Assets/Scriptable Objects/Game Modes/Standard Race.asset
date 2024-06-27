@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0d3aec27c6391a4f8db40b281715682, type: 3}
   m_Name: Standard Race
   m_EditorClassIdentifier: 
-  name: Standard Race
+  name: Race
   managerPrefab: {fileID: 1461594453337069621, guid: a5b27e31042a0b64b846fa0eab47d09a,
     type: 3}
   compatibleLevels:

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ae940bd469af24aa873cc98431db20, type: 3}
   m_Name: Standard Battle
   m_EditorClassIdentifier: 
-  name: Standard Battle
+  name: Battle
   managerPrefab: {fileID: 1461594453337069621, guid: d8a2c36afb30a794093e5f652a8109e4,
     type: 3}
   compatibleLevels:
