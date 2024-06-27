@@ -16,7 +16,7 @@ MonoBehaviour:
   carModel: {fileID: 919132149155446097, guid: 9eafb8478ddbc8242a8ac997b5d69b23, type: 3}
   fowardAccel: 1
   reverseAccel: 0.5
-  maxSpeed: 20
-  turnStrength: 80
-  groundDrag: 1.5
+  maxSpeed: 25
+  turnStrength: 70
+  groundDrag: 2
   airDrag: 0.1
