@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5095232086438733328}
   - component: {fileID: 3142579779311308039}
   - component: {fileID: 2973997270560426780}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Placement Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,7 +158,7 @@ GameObject:
   - component: {fileID: 3952698159341037373}
   - component: {fileID: 4866700991322304972}
   - component: {fileID: 3501906315755622782}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Reset Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 8868163447395371212}
   - component: {fileID: 5240972086126726423}
   - component: {fileID: 4933222826283935983}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Lap Count Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -526,7 +526,7 @@ GameObject:
   - component: {fileID: 7507381835997196669}
   - component: {fileID: 1534637111668467878}
   - component: {fileID: 9093043830903677160}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: HUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -643,7 +643,7 @@ GameObject:
   - component: {fileID: 3634431458382394007}
   - component: {fileID: 9135333079683732162}
   - component: {fileID: 6768661922138323080}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Lap Counter Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}

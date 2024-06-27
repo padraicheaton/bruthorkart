@@ -18,10 +18,13 @@ public class CarController : MonoBehaviour
     [Header("Visuals")]
     [SerializeField] private float groundAlignSpeed;
 
+    private float currentSpeed;
+
     private float accelerateInput;
     private float steeringInput;
 
     private bool isGrounded;
+    private bool isSpeedBoosted;
 
     public UnityAction<Vector3> OnCarLeftGround;
 
@@ -58,8 +61,17 @@ public class CarController : MonoBehaviour
     {
         ballEngine.drag = isGrounded ? settings.groundDrag : settings.airDrag;
 
+        if (!isSpeedBoosted)
+        {
+            float acceleration = accelerateInput > 0 ? settings.fowardAccel : settings.reverseAccel;
+            float maxSpeed = accelerateInput > 0 ? settings.maxSpeed : settings.maxSpeed / 2f;
+
+            currentSpeed = Mathf.Lerp(currentSpeed, maxSpeed, Time.deltaTime * acceleration);
+        }
+
         if (ballEngine.velocity.magnitude < settings.maxSpeed && accelerateInput != 0 && isGrounded)
-            ballEngine.AddForce(carVisuals.forward * accelerateInput * (accelerateInput > 0 ? settings.fowardAccel : settings.reverseAccel), ForceMode.Acceleration);
+            //ballEngine.AddForce(carVisuals.forward * accelerateInput * (accelerateInput > 0 ? settings.fowardAccel : settings.reverseAccel), ForceMode.Acceleration);
+            ballEngine.AddForce(carVisuals.forward * currentSpeed * accelerateInput, ForceMode.Acceleration);
     }
 
     private void CheckGrounded()
@@ -85,5 +97,21 @@ public class CarController : MonoBehaviour
         ballEngine.velocity = Vector3.zero;
         ballEngine.position = resetPos;
         carVisuals.rotation = resetRot;
+    }
+
+    public void BoostSpeed(float amount, float duration)
+    {
+        currentSpeed = settings.maxSpeed + amount;
+
+        isSpeedBoosted = true;
+
+        StartCoroutine(ResetBoostStateAfterDuration(duration));
+    }
+
+    private IEnumerator ResetBoostStateAfterDuration(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        isSpeedBoosted = false;
     }
 }
