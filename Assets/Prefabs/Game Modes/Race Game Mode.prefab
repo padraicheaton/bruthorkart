@@ -44,3 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96ae3e84edb5b144f86f47cc0c53a28d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  modeSpecificHUDPrefab: {fileID: 1152142280506331120, guid: c3d53742b7afeb247a7b7d41fa11e4fa,
+    type: 3}

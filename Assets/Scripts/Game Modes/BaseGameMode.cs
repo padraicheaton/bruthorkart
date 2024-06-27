@@ -6,6 +6,9 @@ using UnityEngine.EventSystems;
 
 public abstract class BaseGameMode : Singleton<BaseGameMode>
 {
+    [Header("References")]
+    [SerializeField] private GameObject modeSpecificHUDPrefab;
+
     protected List<CharRankData> characterRanks;
 
     public void Setup(GameModeSettings gameModeSettings)
@@ -22,6 +25,8 @@ public abstract class BaseGameMode : Singleton<BaseGameMode>
 
 
     protected abstract void PostSetup(GameModeSettings gameModeSettings);
+
+    public GameObject GetModeHUD() => modeSpecificHUDPrefab;
 
     public List<CharRankData> GetRankedCharacters()
     {

@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlayerHUDController : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private TextMeshProUGUI lapCountTxt;
     [SerializeField] private CanvasGroup resettingScreen;
 
     private PlayerConfiguration playerConfig;
@@ -15,18 +14,14 @@ public class PlayerHUDController : MonoBehaviour
     {
         playerConfig = config;
 
-        RaceGameController.OnPlayerCompletedLap += OnPlayerCompletedLap;
-
         WorldBorderTrigger.OnPlayerPassedWorldBorder += OnPlayerFallen;
 
-        lapCountTxt.text = "0/" + (RaceGameController.Instance as RaceGameController).GetTotalLaps();
-    }
+        GameObject modeSpecificHUD = BaseGameMode.Instance.GetModeHUD();
 
-    public void OnPlayerCompletedLap(RaceGameController.RacerData player)
-    {
-        if (playerConfig.PlayerIndex == player.PlayerID)
+        if (modeSpecificHUD != null)
         {
-            lapCountTxt.text = player.LapsCompleted + "/" + (RaceGameController.Instance as RaceGameController).GetTotalLaps();
+            GameObject hud = Instantiate(modeSpecificHUD, transform);
+            hud.GetComponent<IModeHUDController>().Setup(config);
         }
     }
 
