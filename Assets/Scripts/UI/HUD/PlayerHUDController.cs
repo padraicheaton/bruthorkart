@@ -15,20 +15,22 @@ public class PlayerHUDController : MonoBehaviour
     {
         playerConfig = config;
 
-        RaceManager.OnPlayerCompletedLap += OnPlayerCompletedLap;
+        RaceGameController.OnPlayerCompletedLap += OnPlayerCompletedLap;
 
         WorldBorderTrigger.OnPlayerPassedWorldBorder += config =>
         {
             if (playerConfig.PlayerIndex == config.PlayerIndex)
                 StartCoroutine(ShowScreenWhilstResetting());
         };
+
+        lapCountTxt.text = "0/" + (RaceGameController.Instance as RaceGameController).GetTotalLaps();
     }
 
-    public void OnPlayerCompletedLap(RaceManager.RacerData player)
+    public void OnPlayerCompletedLap(RaceGameController.RacerData player)
     {
         if (playerConfig.PlayerIndex == player.PlayerID)
         {
-            lapCountTxt.text = player.LapsCompleted + "/" + RaceManager.Instance.GetTotalLaps();
+            lapCountTxt.text = player.LapsCompleted + "/" + (RaceGameController.Instance as RaceGameController).GetTotalLaps();
         }
     }
 

@@ -13,6 +13,10 @@ public class PlayerConfigurationManager : Singleton<PlayerConfigurationManager>
     [Header("Settings")]
     [SerializeField] private int maxPlayers;
 
+    [Header("Game Config")]
+    public GameModeSettings chosenMode;
+    public LevelData chosenLevel;
+
     private List<PlayerConfiguration> playerConfigs;
 
     public static UnityAction<PlayerConfiguration> OnPlayerJoined;
@@ -48,7 +52,7 @@ public class PlayerConfigurationManager : Singleton<PlayerConfigurationManager>
 
         if (playerConfigs.Count == maxPlayers && playerConfigs.All(player => player.IsReady))
         {
-            SceneController.Instance.TransitionScene(SceneController.Level.LevelOne);
+            SceneController.Instance.TransitionScene(chosenLevel.level);
         }
     }
 

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80ae940bd469af24aa873cc98431db20, type: 3}
+  m_Name: Standard Battle
+  m_EditorClassIdentifier: 
+  name: Standard Battle
+  managerPrefab: {fileID: 1461594453337069621, guid: d8a2c36afb30a794093e5f652a8109e4,
+    type: 3}
+  compatibleLevels:
+  - {fileID: 11400000, guid: b131ae5b15179fd42b577561f1ea5284, type: 2}
+  description: Work In Progress...

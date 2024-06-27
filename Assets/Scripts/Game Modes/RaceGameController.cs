@@ -3,23 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class RaceManager : Singleton<RaceManager>
+public class RaceGameController : BaseGameMode
 {
-    [Header("Settings")]
-    [SerializeField] private int NumLaps;
+    private RaceGameModeSettings settings;
 
     private List<TrackCheckpoint> trackCheckpoints = new List<TrackCheckpoint>();
     private List<RacerData> racers = new List<RacerData>();
 
     public static UnityAction<RacerData> OnPlayerCompletedLap;
 
-
-    private void Start()
+    protected override void PostSetup(GameModeSettings gameModeSettings)
     {
+        settings = gameModeSettings as RaceGameModeSettings;
+
         foreach (PlayerConfiguration config in PlayerConfigurationManager.Instance.GetPlayerConfigurations())
         {
             racers.Add(new RacerData(config.PlayerIndex));
         }
+
+        OnPlayerCompletedLap += racer => CheckIfGameComplete();
     }
 
     public void RegisterCheckpoint(TrackCheckpoint trackCheckpoint)
@@ -27,47 +29,55 @@ public class RaceManager : Singleton<RaceManager>
         trackCheckpoints.Add(trackCheckpoint);
     }
 
-    public void RegisterPlayerLastGrounded(int playerID, Vector3 pos)
-    {
-        foreach (RacerData racer in racers)
-            if (racer.PlayerID == playerID)
-            {
-                racer.UpdateLastGrounded(pos);
-                break;
-            }
-    }
-
-    public int GetTotalLaps() => NumLaps;
+    public int GetTotalLaps() => settings.Laps;
 
 
     public Transform GetClosestCheckpointToPlayerLastGrounded(int id)
     {
-        Vector3 lastGroundedPos = GetRacer(id).LastPosGrounded;
+        Debug.Log($"Trying to find player: {id}");
 
-        float distance = float.MaxValue;
-        Transform resetTform = trackCheckpoints[0].transform;
+        RacerData racer = GetRacer(id);
 
-        foreach (TrackCheckpoint checkpoint in trackCheckpoints)
+        if (racer.PassedCheckpointIDs.Count > 0)
         {
-            float chkDist = Vector3.Distance(lastGroundedPos, checkpoint.transform.position);
+            int lastPassedCheckpointID = racer.PassedCheckpointIDs[racer.PassedCheckpointIDs.Count - 1];
 
-            if (chkDist < distance)
-            {
-                distance = chkDist;
-                resetTform = checkpoint.transform;
-            }
+            foreach (TrackCheckpoint checkpoint in trackCheckpoints)
+                if (checkpoint.ID == lastPassedCheckpointID)
+                    return checkpoint.transform;
         }
 
-        return resetTform;
+        return trackCheckpoints[0].transform;
+    }
+
+    private void CheckIfGameComplete()
+    {
+        if (IsGameComplete())
+            OnGameFinished();
+    }
+
+    private bool IsGameComplete()
+    {
+        foreach (RacerData racer in racers)
+        {
+            if (racer.LapsCompleted < GetTotalLaps())
+                return false;
+        }
+
+        return true;
     }
 
     private RacerData GetRacer(int id)
     {
         foreach (RacerData racer in racers)
+        {
             if (racer.PlayerID == id)
             {
                 return racer;
             }
+        }
+
+        Debug.Log($"Couldn't find racer with ID: {id}");
 
         return null;
     }
@@ -88,7 +98,7 @@ public class RaceManager : Singleton<RaceManager>
 
                     OnPlayerCompletedLap?.Invoke(racer);
 
-                    if (racer.LapsCompleted >= NumLaps)
+                    if (racer.LapsCompleted >= GetTotalLaps())
                         Debug.Log($"Player {racer.PlayerID} finished race!");
                 }
 
@@ -107,7 +117,6 @@ public class RaceManager : Singleton<RaceManager>
         public int PlayerID;
         public List<int> PassedCheckpointIDs;
         public int LapsCompleted;
-        public Vector3 LastPosGrounded; // used for resetting players when needed
 
         public RacerData(int _PlayerID)
         {
@@ -126,12 +135,6 @@ public class RaceManager : Singleton<RaceManager>
         {
             PassedCheckpointIDs = new List<int>();
             LapsCompleted++;
-        }
-
-        public void UpdateLastGrounded(Vector3 pos)
-        {
-            LastPosGrounded = pos;
-            Debug.Log($"Player {PlayerID} last ground {pos}");
         }
     }
 }

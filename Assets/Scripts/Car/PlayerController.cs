@@ -30,8 +30,6 @@ public class PlayerController : MonoBehaviour
 
         playerHUDController.Setup(playerConfig);
 
-        carController.OnCarLeftGround += RecordPlayerLastPosition;
-
         WorldBorderTrigger.OnPlayerPassedWorldBorder += config => StartCoroutine(ResetPlayerAfterDelay(config));
     }
 
@@ -61,14 +59,9 @@ public class PlayerController : MonoBehaviour
         if (config.PlayerIndex != playerConfig.PlayerIndex)
             return;
 
-        Transform resetPos = RaceManager.Instance.GetClosestCheckpointToPlayerLastGrounded(playerConfig.PlayerIndex);
+        Transform resetPos = (RaceGameController.Instance as RaceGameController).GetClosestCheckpointToPlayerLastGrounded(playerConfig.PlayerIndex);
         Debug.Log(resetPos);
         carController.OverridePosition(resetPos.position + Vector3.up * 5f, resetPos.rotation);
-    }
-
-    private void RecordPlayerLastPosition(Vector3 lastGroundedPos)
-    {
-        RaceManager.Instance.RegisterPlayerLastGrounded(playerConfig.PlayerIndex, lastGroundedPos);
     }
 
     public PlayerConfiguration GetConfig() => playerConfig;

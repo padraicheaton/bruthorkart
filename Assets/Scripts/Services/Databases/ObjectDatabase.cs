@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CarDatabase : Singleton<CarDatabase>
+public abstract class ObjectDatabase<T> : Singleton<ObjectDatabase<T>>
 {
-    [SerializeField] private List<CarSettings> cars;
+    [SerializeField] private List<T> objects;
 
-    public CarSettings First() => cars[0];
-    public CarSettings Get(int index) => cars[index];
+    public T First() => objects[0];
+    public T Get(int index) => objects[index];
     public int Next(int index)
     {
         int nextIndex = index + 1;
 
-        if (nextIndex >= cars.Count)
+        if (nextIndex >= objects.Count)
             nextIndex = 0;
 
         return nextIndex;
@@ -21,8 +21,8 @@ public class CarDatabase : Singleton<CarDatabase>
     {
         int nextIndex = index - 1;
 
-        if (nextIndex <= 0)
-            nextIndex = cars.Count - 1;
+        if (nextIndex < 0)
+            nextIndex = objects.Count - 1;
 
         return nextIndex;
     }

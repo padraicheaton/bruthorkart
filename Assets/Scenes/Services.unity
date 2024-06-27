@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -227,6 +227,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInputManager: {fileID: 546967709}
   maxPlayers: 4
+  chosenMode: {fileID: 11400000, guid: ddf12cf829eaf9140a97de4bcd76104a, type: 2}
+  chosenLevel: {fileID: 11400000, guid: 2d3055d8675334d4aad736df7fac2c0c, type: 2}
 --- !u!1 &997515592
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,6 +239,7 @@ GameObject:
   m_Component:
   - component: {fileID: 997515593}
   - component: {fileID: 997515594}
+  - component: {fileID: 997515596}
   m_Layer: 0
   m_Name: Database
   m_TagString: Untagged
@@ -271,11 +274,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97b49abf0404cbd4594634a2ef405b74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cars:
-  - {fileID: 11400000, guid: e29c1b6e77b2d0e4e9338a0b019e6a2b, type: 2}
+  objects:
   - {fileID: 11400000, guid: f93101b776655ed4c87a49102dd95485, type: 2}
+  - {fileID: 11400000, guid: 82f7c4479bdfdfc40acc9b044dbd863f, type: 2}
   - {fileID: 11400000, guid: 3672ca9fd01dd544498ccacfa921e9d4, type: 2}
   - {fileID: 11400000, guid: 2218e7b61a87f4f47b817b5eaa002ee5, type: 2}
+  - {fileID: 11400000, guid: e29c1b6e77b2d0e4e9338a0b019e6a2b, type: 2}
+--- !u!114 &997515596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997515592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f89427b3bc42f44795577527f6865bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objects:
+  - {fileID: 11400000, guid: ddf12cf829eaf9140a97de4bcd76104a, type: 2}
+  - {fileID: 11400000, guid: 62c20d1789b9a08428ad8fd33183f3b2, type: 2}
 --- !u!1 &1249914286
 GameObject:
   m_ObjectHideFlags: 0

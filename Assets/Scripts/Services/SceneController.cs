@@ -14,10 +14,11 @@ public class SceneController : Singleton<SceneController>
     public enum Level
     {
         Services,
-        MainGame,
-        LevelOne,
         MainMenu,
+        MainGame,
+        ModeSelection,
         CharSelection,
+        LevelOne,
         Sandbox
     }
 
@@ -87,7 +88,24 @@ public class SceneController : Singleton<SceneController>
             yield return null;
         }
 
-        LoadScene(scene);
+        //LoadScene(scene);
+
+        List<Level> scenesToLoad = new List<Level>();
+
+        scenesToLoad.AddRange(GetPrerequisiteScenesFor(scene));
+        scenesToLoad.Add(scene);
+
+        UnloadUnnecessaryScenes(scenesToLoad);
+
+        foreach (Level level in scenesToLoad)
+        {
+            if (SceneManager.GetSceneByBuildIndex((int)level).isLoaded)
+                continue;
+
+            SceneManager.LoadScene((int)level, LoadSceneMode.Additive);
+
+            yield return null;
+        }
 
         while (loadingScreenCG.alpha > 0f)
         {
@@ -95,5 +113,10 @@ public class SceneController : Singleton<SceneController>
 
             yield return null;
         }
+    }
+
+    public void MoveObjToScene(GameObject obj, Level scene)
+    {
+        SceneManager.MoveGameObjectToScene(obj, SceneManager.GetSceneByBuildIndex((int)scene));
     }
 }

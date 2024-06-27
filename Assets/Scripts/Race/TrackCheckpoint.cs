@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class TrackCheckpoint : MonoBehaviour
 {
-    [SerializeField] private int ID;
+    [SerializeField] public int ID;
 
     private void Start()
     {
-        RaceManager.Instance.RegisterCheckpoint(this);
+        (RaceGameController.Instance as RaceGameController).RegisterCheckpoint(this);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.parent.TryGetComponent<PlayerController>(out PlayerController pc))
         {
-            RaceManager.Instance.CheckpointPassed(ID, pc.GetConfig().PlayerIndex);
+            (RaceGameController.Instance as RaceGameController).CheckpointPassed(ID, pc.GetConfig().PlayerIndex);
         }
     }
 
