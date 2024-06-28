@@ -17,6 +17,7 @@ public class CarController : MonoBehaviour
 
     [Header("Visuals")]
     [SerializeField] private float groundAlignSpeed;
+    [SerializeField] private ParticleSystem speedBoostParticles;
 
     private float currentSpeed;
 
@@ -25,8 +26,6 @@ public class CarController : MonoBehaviour
 
     private bool isGrounded;
     private bool isSpeedBoosted;
-
-    public UnityAction<Vector3> OnCarLeftGround;
 
     public void UpdateAccelerateInput(float accelerateInput)
     {
@@ -64,26 +63,18 @@ public class CarController : MonoBehaviour
         if (!isSpeedBoosted)
         {
             float acceleration = accelerateInput > 0 ? settings.fowardAccel : settings.reverseAccel;
-            float maxSpeed = accelerateInput > 0 ? settings.maxSpeed : settings.maxSpeed / 2f;
+            float maxSpeed = accelerateInput > 0 ? settings.maxSpeed : settings.maxSpeed / 4f;
 
             currentSpeed = Mathf.Lerp(currentSpeed, maxSpeed, Time.deltaTime * acceleration);
         }
 
         if (ballEngine.velocity.magnitude < settings.maxSpeed && accelerateInput != 0 && isGrounded)
-            //ballEngine.AddForce(carVisuals.forward * accelerateInput * (accelerateInput > 0 ? settings.fowardAccel : settings.reverseAccel), ForceMode.Acceleration);
             ballEngine.AddForce(carVisuals.forward * currentSpeed * accelerateInput, ForceMode.Acceleration);
     }
 
     private void CheckGrounded()
     {
-        bool wasGrounded = isGrounded;
-
         isGrounded = Physics.Raycast(carVisuals.position, Vector3.down, out RaycastHit hit, 1f, whatIsGround);
-
-        if (wasGrounded && !isGrounded)
-        {
-            OnCarLeftGround?.Invoke(ballEngine.position);
-        }
 
         if (isGrounded)
         {
@@ -101,9 +92,14 @@ public class CarController : MonoBehaviour
 
     public void BoostSpeed(float amount, float duration)
     {
+        if (isSpeedBoosted)
+            return;
+
         currentSpeed = settings.maxSpeed + amount;
 
         isSpeedBoosted = true;
+
+        speedBoostParticles.Play();
 
         StartCoroutine(ResetBoostStateAfterDuration(duration));
     }
@@ -111,6 +107,8 @@ public class CarController : MonoBehaviour
     private IEnumerator ResetBoostStateAfterDuration(float duration)
     {
         yield return new WaitForSeconds(duration);
+
+        speedBoostParticles.Stop();
 
         isSpeedBoosted = false;
     }
