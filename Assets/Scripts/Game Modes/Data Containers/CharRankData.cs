@@ -8,10 +8,10 @@ public class CharRankData
     public bool IsPlayer { get; private set; }
     public int Points { get; private set; }
 
-    public CharRankData(int _PlayerID = -1)
+    public CharRankData(int _PlayerID = -1, int points = 0)
     {
         PlayerID = _PlayerID;
-        Points = 0;
+        Points = points;
         IsPlayer = PlayerID != -1;
     }
 
@@ -21,5 +21,10 @@ public class CharRankData
             Debug.LogWarning("Trying to add negative points...");
 
         Points += amount;
+    }
+
+    public override string ToString()
+    {
+        return $"Player: {PlayerID} - Points: {Points}";
     }
 }

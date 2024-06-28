@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Char Selection.unity
     guid: 2d3549a723f32f34ab244687093a5aac
   - enabled: 1
+    path: Assets/Scenes/Results.unity
+    guid: 8fb119b64f1286340ad5c059dcd9e3ae
+  - enabled: 1
     path: Assets/Scenes/Levels/LevelOne.unity
     guid: bb0c48c3bf013df4994b82dc737a2bb4
   - enabled: 1

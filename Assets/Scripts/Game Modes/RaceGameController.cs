@@ -75,10 +75,10 @@ public class RaceGameController : BaseGameMode
                     Debug.Log($"Player {racer.PlayerID} finished lap!");
                     racer.ResetCheckpoints();
 
-                    OnPlayerCompletedLap?.Invoke(racer);
-
                     if (racer.LapsCompleted >= GetTotalLaps())
-                        Debug.Log($"Player {racer.PlayerID} finished race!");
+                        RecordPlayerPoints(racer);
+
+                    OnPlayerCompletedLap?.Invoke(racer);
                 }
 
                 break;
@@ -89,6 +89,13 @@ public class RaceGameController : BaseGameMode
     private bool HasRacerFinishedLap(RacerData racer)
     {
         return racer.PassedCheckpointIDs.Count == trackCheckpoints.Count;
+    }
+
+    private void RecordPlayerPoints(RacerData racer)
+    {
+        int points = characterRanks.Count > 0 ? characterRanks[characterRanks.Count - 1].Points - 1 : 10;
+
+        characterRanks.Add(new CharRankData(racer.PlayerID, points));
     }
 
     public override Transform GetResetTransform(int playerID)

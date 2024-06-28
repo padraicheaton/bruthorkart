@@ -18,6 +18,7 @@ public class SceneController : Singleton<SceneController>
         MainGame,
         ModeSelection,
         CharSelection,
+        Results,
         LevelOne,
         Arena
     }
@@ -49,6 +50,11 @@ public class SceneController : Singleton<SceneController>
         }
     }
 
+    public void AddScene(Level scene)
+    {
+        SceneManager.LoadScene((int)scene, LoadSceneMode.Additive);
+    }
+
     public List<Level> GetPrerequisiteScenesFor(Level scene)
     {
         List<Level> scenes = new List<Level>() { Level.Services };
@@ -57,6 +63,7 @@ public class SceneController : Singleton<SceneController>
         {
             case Level.LevelOne:
             case Level.Arena:
+            case Level.Results:
                 scenes.Add(Level.MainGame);
                 break;
             default:

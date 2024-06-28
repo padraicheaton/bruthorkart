@@ -21,11 +21,6 @@ public abstract class BaseGameMode : Singleton<BaseGameMode>
 
         characterRanks = new List<CharRankData>();
 
-        foreach (PlayerConfiguration playerConfiguration in PlayerConfigurationManager.Instance.GetPlayerConfigurations())
-        {
-            characterRanks.Add(new CharRankData(playerConfiguration.PlayerIndex));
-        }
-
         PostSetup(gameModeSettings);
     }
 
@@ -48,12 +43,7 @@ public abstract class BaseGameMode : Singleton<BaseGameMode>
 
     protected void OnGameFinished()
     {
-        //! For now, just load the main menu again
-        SceneController.Instance.TransitionScene(SceneController.Level.MainMenu);
-
-        // Load the results screen (make sure to make the MainGame scene a prereq of it)
-
-        // Pass through the character ranks to the results screen
+        SceneController.Instance.AddScene(SceneController.Level.Results);
     }
 
     public ItemData GetRandomItem()

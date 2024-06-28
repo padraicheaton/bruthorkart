@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Test Battle
   previewImg: {fileID: 0}
-  level: 6
+  level: 7
