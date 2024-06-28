@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80ae940bd469af24aa873cc98431db20, type: 3}
-  m_Name: Standard Battle
+  m_Name: Coin Battle
   m_EditorClassIdentifier: 
-  name: Battle
+  name: Coin Runners
   managerPrefab: {fileID: 1461594453337069621, guid: d8a2c36afb30a794093e5f652a8109e4,
     type: 3}
   compatibleLevels:
