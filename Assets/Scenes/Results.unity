@@ -571,7 +571,7 @@ MonoBehaviour:
   dataRowContainer: {fileID: 34185971}
   dataRowPrefab: {fileID: 7153599209273151783, guid: 4d51b56e42d36ba468c44103cbdc5899,
     type: 3}
-  displayDuration: 8
+  displayDuration: 10
 --- !u!1 &1368105129
 GameObject:
   m_ObjectHideFlags: 0

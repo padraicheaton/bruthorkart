@@ -23,10 +23,10 @@ public class ItemData : ScriptableObject
         {
             default:
             case Effect.SpeedBoost:
-                ApplySpeedBoost(carController, 15, 2);
+                ApplySpeedBoost(carController, GlobalSettings.SmallSpeedBoost, 3);
                 break;
             case Effect.HyperBoost:
-                ApplySpeedBoost(carController, 20, 10);
+                ApplySpeedBoost(carController, GlobalSettings.LargeSpeedBoost, 3);
                 break;
         }
     }

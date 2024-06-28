@@ -36,7 +36,7 @@ public abstract class BaseGameMode : Singleton<BaseGameMode>
         if (characterRanks == null)
             return null;
 
-        characterRanks.Sort((charRankA, charRankB) => charRankA.Points.CompareTo(charRankB));
+        characterRanks.Sort((charRankA, charRankB) => charRankB.Points.CompareTo(charRankA.Points));
 
         return characterRanks;
     }
