@@ -16,8 +16,8 @@ public class SplitScreenRend : MonoBehaviour
         configuration = playerConfiguration;
 
         // Setup size of split screen
-        float width = 1920f;
-        float height = 1080f;
+        float width = Screen.currentResolution.width;
+        float height = Screen.currentResolution.height;
 
         if (totalPlayers > 1)
             width /= 2f;

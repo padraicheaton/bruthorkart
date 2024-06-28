@@ -8,7 +8,7 @@ public class SpeedBoostArea : MonoBehaviour
     {
         if (other.transform.parent.TryGetComponent<CarController>(out CarController controller))
         {
-            controller.BoostSpeed(GlobalSettings.SmallSpeedBoost, 3f);
+            controller.BoostSpeed(GlobalSettings.SmallSpeedBoost, GlobalSettings.ShortPowerUpDuration);
         }
     }
 }
