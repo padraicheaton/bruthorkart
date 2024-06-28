@@ -13,8 +13,6 @@ public class SpeedBoostArea : MonoBehaviour
         if (other.transform.parent.TryGetComponent<CarController>(out CarController controller))
         {
             controller.BoostSpeed(amount, duration);
-
-            Debug.Log("Boosted speed");
         }
     }
 }

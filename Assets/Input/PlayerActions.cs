@@ -44,6 +44,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Use Item"",
+                    ""type"": ""Button"",
+                    ""id"": ""78f4566a-4233-49dc-ad82-3f8c6ebfab1a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -178,6 +187,28 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""Steering"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ef7cc188-0929-477f-8d56-e985cfbd1166"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Use Item"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""77ccd3dc-7c92-4ab8-9124-94550dfa524d"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Use Item"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -424,6 +455,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Driving = asset.FindActionMap("Driving", throwIfNotFound: true);
         m_Driving_Accelerate = m_Driving.FindAction("Accelerate", throwIfNotFound: true);
         m_Driving_Steering = m_Driving.FindAction("Steering", throwIfNotFound: true);
+        m_Driving_UseItem = m_Driving.FindAction("Use Item", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -491,12 +523,14 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private List<IDrivingActions> m_DrivingActionsCallbackInterfaces = new List<IDrivingActions>();
     private readonly InputAction m_Driving_Accelerate;
     private readonly InputAction m_Driving_Steering;
+    private readonly InputAction m_Driving_UseItem;
     public struct DrivingActions
     {
         private @PlayerActions m_Wrapper;
         public DrivingActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Accelerate => m_Wrapper.m_Driving_Accelerate;
         public InputAction @Steering => m_Wrapper.m_Driving_Steering;
+        public InputAction @UseItem => m_Wrapper.m_Driving_UseItem;
         public InputActionMap Get() { return m_Wrapper.m_Driving; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -512,6 +546,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Steering.started += instance.OnSteering;
             @Steering.performed += instance.OnSteering;
             @Steering.canceled += instance.OnSteering;
+            @UseItem.started += instance.OnUseItem;
+            @UseItem.performed += instance.OnUseItem;
+            @UseItem.canceled += instance.OnUseItem;
         }
 
         private void UnregisterCallbacks(IDrivingActions instance)
@@ -522,6 +559,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Steering.started -= instance.OnSteering;
             @Steering.performed -= instance.OnSteering;
             @Steering.canceled -= instance.OnSteering;
+            @UseItem.started -= instance.OnUseItem;
+            @UseItem.performed -= instance.OnUseItem;
+            @UseItem.canceled -= instance.OnUseItem;
         }
 
         public void RemoveCallbacks(IDrivingActions instance)
@@ -615,6 +655,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     {
         void OnAccelerate(InputAction.CallbackContext context);
         void OnSteering(InputAction.CallbackContext context);
+        void OnUseItem(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

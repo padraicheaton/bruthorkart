@@ -17,5 +17,8 @@ MonoBehaviour:
     type: 3}
   compatibleLevels:
   - {fileID: 11400000, guid: 2d3055d8675334d4aad736df7fac2c0c, type: 2}
+  items:
+  - {fileID: 11400000, guid: dfd852b34f6e0474d926d7c3a9dabb36, type: 2}
+  - {fileID: 11400000, guid: 8132cc89667635a44a49e6d44d42b068, type: 2}
   description: Standard race, complete the three laps and see who comes first!
   Laps: 3

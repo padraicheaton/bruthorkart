@@ -5,17 +5,15 @@ using UnityEngine.Events;
 
 public class RaceGameController : BaseGameMode
 {
-    private RaceGameModeSettings settings;
-
     private List<TrackCheckpoint> trackCheckpoints = new List<TrackCheckpoint>();
     private List<RacerData> racers = new List<RacerData>();
 
     public static UnityAction<RacerData> OnPlayerCompletedLap;
 
+    private RaceGameModeSettings RaceSettings => settings as RaceGameModeSettings;
+
     protected override void PostSetup(GameModeSettings gameModeSettings)
     {
-        settings = gameModeSettings as RaceGameModeSettings;
-
         foreach (PlayerConfiguration config in PlayerConfigurationManager.Instance.GetPlayerConfigurations())
         {
             racers.Add(new RacerData(config.PlayerIndex));
@@ -29,26 +27,7 @@ public class RaceGameController : BaseGameMode
         trackCheckpoints.Add(trackCheckpoint);
     }
 
-    public int GetTotalLaps() => settings.Laps;
-
-
-    public Transform GetClosestCheckpointToPlayerLastGrounded(int id)
-    {
-        Debug.Log($"Trying to find player: {id}");
-
-        RacerData racer = GetRacer(id);
-
-        if (racer.PassedCheckpointIDs.Count > 0)
-        {
-            int lastPassedCheckpointID = racer.PassedCheckpointIDs[racer.PassedCheckpointIDs.Count - 1];
-
-            foreach (TrackCheckpoint checkpoint in trackCheckpoints)
-                if (checkpoint.ID == lastPassedCheckpointID)
-                    return checkpoint.transform;
-        }
-
-        return trackCheckpoints[0].transform;
-    }
+    public int GetTotalLaps() => RaceSettings.Laps;
 
     private void CheckIfGameComplete()
     {
@@ -110,6 +89,22 @@ public class RaceGameController : BaseGameMode
     private bool HasRacerFinishedLap(RacerData racer)
     {
         return racer.PassedCheckpointIDs.Count == trackCheckpoints.Count;
+    }
+
+    public override Transform GetResetTransform(int playerID)
+    {
+        RacerData racer = GetRacer(playerID);
+
+        if (racer.PassedCheckpointIDs.Count > 0)
+        {
+            int lastPassedCheckpointID = racer.PassedCheckpointIDs[racer.PassedCheckpointIDs.Count - 1];
+
+            foreach (TrackCheckpoint checkpoint in trackCheckpoints)
+                if (checkpoint.ID == lastPassedCheckpointID)
+                    return checkpoint.transform;
+        }
+
+        return trackCheckpoints[0].transform;
     }
 
     public class RacerData

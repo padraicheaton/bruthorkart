@@ -13,12 +13,16 @@ public class PlayerController : MonoBehaviour
     private PlayerActions inputActions;
 
     private CarController carController;
+    private ItemHandler itemHandler;
 
     public void Initialise(PlayerConfiguration playerConfiguration)
     {
         playerConfig = playerConfiguration;
 
         carController = GetComponent<CarController>();
+        itemHandler = GetComponent<ItemHandler>();
+
+        itemHandler.Setup(playerConfiguration);
 
         carController.SetSettings(playerConfig.CarSettings);
 
@@ -28,7 +32,7 @@ public class PlayerController : MonoBehaviour
 
         SetupSplitCam();
 
-        playerHUDController.Setup(playerConfig);
+        playerHUDController.Setup(playerConfig, itemHandler);
 
         WorldBorderTrigger.OnPlayerPassedWorldBorder += config => StartCoroutine(ResetPlayerAfterDelay(config));
     }
@@ -45,6 +49,9 @@ public class PlayerController : MonoBehaviour
 
         if (context.action.name == inputActions.Driving.Steering.name)
             carController.UpdateSteeringInput(context.ReadValue<float>());
+
+        if (context.action.name == inputActions.Driving.UseItem.name)
+            itemHandler.TryUseItem();
     }
 
     private IEnumerator ResetPlayerAfterDelay(PlayerConfiguration config)
@@ -59,8 +66,7 @@ public class PlayerController : MonoBehaviour
         if (config.PlayerIndex != playerConfig.PlayerIndex)
             return;
 
-        Transform resetPos = (RaceGameController.Instance as RaceGameController).GetClosestCheckpointToPlayerLastGrounded(playerConfig.PlayerIndex);
-        Debug.Log(resetPos);
+        Transform resetPos = BaseGameMode.Instance.GetResetTransform(playerConfig.PlayerIndex);
         carController.OverridePosition(resetPos.position + Vector3.up * 5f, resetPos.rotation);
     }
 

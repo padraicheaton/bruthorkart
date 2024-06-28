@@ -10,9 +10,15 @@ public abstract class BaseGameMode : Singleton<BaseGameMode>
     [SerializeField] private GameObject modeSpecificHUDPrefab;
 
     protected List<CharRankData> characterRanks;
+    protected GameModeSettings settings;
+
+    // Takes in the item being picked up and the player ID who picked it up
+    public UnityAction<ItemData, int> OnItemPickedUp;
 
     public void Setup(GameModeSettings gameModeSettings)
     {
+        settings = gameModeSettings;
+
         characterRanks = new List<CharRankData>();
 
         foreach (PlayerConfiguration playerConfiguration in PlayerConfigurationManager.Instance.GetPlayerConfigurations())
@@ -25,6 +31,8 @@ public abstract class BaseGameMode : Singleton<BaseGameMode>
 
 
     protected abstract void PostSetup(GameModeSettings gameModeSettings);
+
+    public abstract Transform GetResetTransform(int playerID);
 
     public GameObject GetModeHUD() => modeSpecificHUDPrefab;
 
@@ -46,5 +54,13 @@ public abstract class BaseGameMode : Singleton<BaseGameMode>
         // Load the results screen (make sure to make the MainGame scene a prereq of it)
 
         // Pass through the character ranks to the results screen
+    }
+
+    public ItemData GetRandomItem()
+    {
+        if (settings.items.Count == 0)
+            return null;
+
+        return Extensions.GetRandom(settings.items);
     }
 }
