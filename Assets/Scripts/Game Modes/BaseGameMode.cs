@@ -9,6 +9,8 @@ public abstract class BaseGameMode : Singleton<BaseGameMode>
     [Header("References")]
     [SerializeField] private GameObject modeSpecificHUDPrefab;
 
+    public UnityAction OnGameBegun;
+
     protected List<CharRankData> characterRanks;
     protected GameModeSettings settings;
 
@@ -21,7 +23,15 @@ public abstract class BaseGameMode : Singleton<BaseGameMode>
 
         characterRanks = new List<CharRankData>();
 
+        StartCoroutine(StartGameAfterDelay());
+
         PostSetup(gameModeSettings);
+    }
+
+    private IEnumerator StartGameAfterDelay()
+    {
+        yield return new WaitForSeconds(3f);
+        OnGameBegun?.Invoke();
     }
 
 

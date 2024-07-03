@@ -13,7 +13,7 @@ public class TrackCheckpoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.parent.TryGetComponent<PlayerController>(out PlayerController pc))
+        if (other.transform.parent.TryGetComponent<BaseController>(out BaseController pc))
         {
             (RaceGameController.Instance as RaceGameController).CheckpointPassed(ID, pc.GetConfig().PlayerIndex);
         }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleGameController : BaseGameMode
+public class CoinRunnerGameController : BaseGameMode
 {
     private BattleGameModeSettings BattleSettings => settings as BattleGameModeSettings;
 

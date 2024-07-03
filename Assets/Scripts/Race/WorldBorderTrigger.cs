@@ -26,7 +26,7 @@ public class WorldBorderTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.parent.TryGetComponent<PlayerController>(out PlayerController pc))
+        if (other.transform.parent.TryGetComponent<BaseController>(out BaseController pc))
         {
             OnPlayerPassedWorldBorder?.Invoke(pc.GetConfig());
 

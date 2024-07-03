@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering;
 
 public class RaceGameController : BaseGameMode
 {
@@ -14,20 +15,36 @@ public class RaceGameController : BaseGameMode
 
     protected override void PostSetup(GameModeSettings gameModeSettings)
     {
+        racers = new List<RacerData>();
+
         foreach (PlayerConfiguration config in PlayerConfigurationManager.Instance.GetPlayerConfigurations())
         {
             racers.Add(new RacerData(config.PlayerIndex));
         }
 
-        OnPlayerCompletedLap += racer => CheckIfGameComplete();
+        OnPlayerCompletedLap += OnRacerCompletedLap;
+    }
+
+    private void OnDestroy()
+    {
+        OnPlayerCompletedLap -= OnRacerCompletedLap;
     }
 
     public void RegisterCheckpoint(TrackCheckpoint trackCheckpoint)
     {
         trackCheckpoints.Add(trackCheckpoint);
+
+        trackCheckpoints.Sort((A, B) => A.ID.CompareTo(B.ID));
     }
 
+    public List<TrackCheckpoint> GetTrackCheckpoints() => trackCheckpoints;
+
     public int GetTotalLaps() => RaceSettings.Laps;
+
+    private void OnRacerCompletedLap(RacerData racer)
+    {
+        CheckIfGameComplete();
+    }
 
     private void CheckIfGameComplete()
     {
@@ -114,6 +131,7 @@ public class RaceGameController : BaseGameMode
         return trackCheckpoints[0].transform;
     }
 
+    [System.Serializable]
     public class RacerData
     {
         public int PlayerID;

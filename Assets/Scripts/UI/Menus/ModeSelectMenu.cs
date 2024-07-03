@@ -45,7 +45,10 @@ public class ModeSelectMenu : MonoBehaviour
 
         PlayerConfigurationManager.Instance.chosenLevel = Extensions.GetRandom(GameModeDatabase.Instance.Get(modeIndex).compatibleLevels);
 
-        SceneController.Instance.TransitionScene(SceneController.Level.CharSelection);
+        //TODO Change this
+        PlayerConfigurationManager.Instance.PopulateRemainingPlayersWithAI();
+
+        SceneController.Instance.TransitionScene(PlayerConfigurationManager.Instance.chosenLevel.level);
     }
 
     private void DisplayChosenMode()

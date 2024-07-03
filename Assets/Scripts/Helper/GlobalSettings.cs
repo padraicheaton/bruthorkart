@@ -4,6 +4,9 @@ using UnityEngine;
 
 public static class GlobalSettings
 {
+    // Gameplay Settings
+    public static int TotalPlayers = 6;
+
     public static float PlayerResetDelay = 1f;
 
     // Power Up Settings

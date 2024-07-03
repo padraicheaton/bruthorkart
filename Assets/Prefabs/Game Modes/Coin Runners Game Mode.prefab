@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7883500442984852465}
   - component: {fileID: 633741323359245312}
   m_Layer: 0
-  m_Name: Battle Game Mode
+  m_Name: Coin Runners Game Mode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

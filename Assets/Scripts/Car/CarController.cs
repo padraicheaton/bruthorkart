@@ -44,6 +44,9 @@ public class CarController : MonoBehaviour
         Instantiate(settings.carModel, modelContainer);
     }
 
+    public Transform GetPos() => ballEngine.transform;
+    public Transform GetVisuals() => carVisuals.transform;
+
     private void Update()
     {
         CheckGrounded();

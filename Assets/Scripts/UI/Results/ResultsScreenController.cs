@@ -26,8 +26,12 @@ public class ResultsScreenController : Singleton<ResultsScreenController>
         foreach (CharRankData rank in ranks)
         {
             GameObject row = Instantiate(dataRowPrefab, dataRowContainer);
-            row.GetComponent<ResultsDataRow>().Setup($"Player {rank.PlayerID + 1}", rank.Points);
+            string name = rank.PlayerID >= 0 ? $"Player {rank.PlayerID + 1}" : $"NPC {Mathf.Abs(rank.PlayerID)}";
+
+            row.GetComponent<ResultsDataRow>().Setup(name, rank.Points);
         }
+
+        PlayerConfigurationManager.Instance.RemoveAIPlayerConfigs();
 
         StartCoroutine(ReturnToMainAfterDelay());
     }
@@ -46,6 +50,6 @@ public class ResultsScreenController : Singleton<ResultsScreenController>
     {
         yield return new WaitForSeconds(displayDuration);
 
-        SceneController.Instance.TransitionScene(SceneController.Level.MainMenu);
+        SceneController.Instance.TransitionScene(SceneController.Level.ModeSelection);
     }
 }

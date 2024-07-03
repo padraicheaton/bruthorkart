@@ -12,7 +12,7 @@ public class CoinPickup : MonoBehaviour
 
     private bool hasBeenPickedUp = false;
 
-    private BattleGameController Controller => BaseGameMode.Instance as BattleGameController;
+    private CoinRunnerGameController Controller => BaseGameMode.Instance as CoinRunnerGameController;
 
     private void OnTriggerEnter(Collider other)
     {

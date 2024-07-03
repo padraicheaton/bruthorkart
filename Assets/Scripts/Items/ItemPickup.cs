@@ -15,7 +15,7 @@ public class ItemPickup : MonoBehaviour
         if (!pickupContainer.gameObject.activeInHierarchy)
             return;
 
-        if (other.transform.parent.TryGetComponent<PlayerController>(out PlayerController pc))
+        if (other.transform.parent.TryGetComponent<BaseController>(out BaseController pc))
         {
             BaseGameMode.Instance.OnItemPickedUp?.Invoke(BaseGameMode.Instance.GetRandomItem(), pc.GetConfig().PlayerIndex);
 

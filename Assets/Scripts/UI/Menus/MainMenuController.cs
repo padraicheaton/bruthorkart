@@ -49,7 +49,7 @@ public class MainMenuController : MonoBehaviour
     public void OnPlayBtnPressed(int playerCount)
     {
         PlayerConfigurationManager.Instance.SetPlayerCount(playerCount);
-        SceneController.Instance.TransitionScene(SceneController.Level.ModeSelection);
+        SceneController.Instance.TransitionScene(SceneController.Level.CharSelection);
     }
 
     public void OnExitBtnPressed()

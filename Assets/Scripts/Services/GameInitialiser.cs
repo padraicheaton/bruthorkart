@@ -6,6 +6,7 @@ public class GameInitialiser : MonoBehaviour
 {
     [SerializeField] private List<Transform> playerSpawns;
     [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private GameObject aiPrefab;
 
     void Start()
     {
@@ -21,11 +22,20 @@ public class GameInitialiser : MonoBehaviour
 
         for (int i = 0; i < playerConfigurations.Count; i++)
         {
-            GameObject player = Instantiate(playerPrefab, playerSpawns[i].position, playerSpawns[i].rotation);
+            GameObject player = Instantiate(playerConfigurations[i].IsPlayer ? playerPrefab : aiPrefab, playerSpawns[i].position, playerSpawns[i].rotation);
 
             SceneController.Instance.MoveObjToScene(player, SceneController.Level.MainGame);
 
-            player.GetComponent<PlayerController>().Initialise(playerConfigurations[i]);
+            player.GetComponent<BaseController>().Initialise(playerConfigurations[i]);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+        foreach (Transform spawnPoint in playerSpawns)
+        {
+            Gizmos.DrawSphere(spawnPoint.position, 0.5f);
         }
     }
 }

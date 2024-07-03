@@ -38,7 +38,7 @@ public class PlayerConfigurationManager : Singleton<PlayerConfigurationManager>
 
     public int GetPlayerCount()
     {
-        return playerConfigs.Count;
+        return maxPlayers;
     }
 
     public void SetPlayerCar(int index, CarSettings settings)
@@ -52,7 +52,7 @@ public class PlayerConfigurationManager : Singleton<PlayerConfigurationManager>
 
         if (playerConfigs.Count == maxPlayers && playerConfigs.All(player => player.IsReady))
         {
-            SceneController.Instance.TransitionScene(chosenLevel.level);
+            SceneController.Instance.TransitionScene(SceneController.Level.ModeSelection);
         }
     }
 
@@ -68,10 +68,39 @@ public class PlayerConfigurationManager : Singleton<PlayerConfigurationManager>
             playerConfigs.Add(new PlayerConfiguration(input));
 
             if (playerConfigs.Count == maxPlayers)
+            {
                 playerInputManager.DisableJoining();
+            }
 
             OnPlayerJoined?.Invoke(playerConfigs[playerConfigs.Count - 1]);
         }
+    }
+
+    public void PopulateRemainingPlayersWithAI()
+    {
+        int npcCount = GlobalSettings.TotalPlayers - maxPlayers;
+
+        if (npcCount <= 0)
+            return;
+
+        // The NPCs are denoted by having negative indices
+        int npcIndex = -1;
+
+        for (int i = 0; i < npcCount; i++)
+        {
+            PlayerConfiguration npc = new PlayerConfiguration(npcIndex - i);
+
+            npc.CarSettings = CarDatabase.Instance.Random();
+
+            playerConfigs.Add(npc);
+
+            Debug.Log($"ADDED NPC {i}");
+        }
+    }
+
+    public void RemoveAIPlayerConfigs()
+    {
+        playerConfigs.RemoveAll(config => !config.IsPlayer);
     }
 
     public void SetPlayerCam(int index, Camera cam)
@@ -82,6 +111,7 @@ public class PlayerConfigurationManager : Singleton<PlayerConfigurationManager>
     }
 }
 
+[System.Serializable]
 public class PlayerConfiguration
 {
     public PlayerConfiguration(PlayerInput input)
@@ -90,9 +120,15 @@ public class PlayerConfiguration
         Input = input;
     }
 
+    public PlayerConfiguration(int NPCIndex)
+    {
+        PlayerIndex = NPCIndex;
+    }
+
     public PlayerInput Input;
     public int PlayerIndex;
     public bool IsReady;
     public CarSettings CarSettings;
     public Camera Camera;
+    public bool IsPlayer => PlayerIndex >= 0;
 }

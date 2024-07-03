@@ -5,26 +5,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Video;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : BaseController
 {
     [SerializeField] private Camera playerCam;
     [SerializeField] private PlayerHUDController playerHUDController;
-    private PlayerConfiguration playerConfig;
-    private PlayerActions inputActions;
 
-    private CarController carController;
-    private ItemHandler itemHandler;
-
-    public void Initialise(PlayerConfiguration playerConfiguration)
+    public override void Initialise(PlayerConfiguration playerConfiguration)
     {
-        playerConfig = playerConfiguration;
-
-        carController = GetComponent<CarController>();
-        itemHandler = GetComponent<ItemHandler>();
-
-        itemHandler.Setup(playerConfiguration);
-
-        carController.SetSettings(playerConfig.CarSettings);
+        base.Initialise(playerConfiguration);
 
         inputActions = new PlayerActions();
 
@@ -33,8 +21,6 @@ public class PlayerController : MonoBehaviour
         SetupSplitCam();
 
         playerHUDController.Setup(playerConfig, itemHandler);
-
-        WorldBorderTrigger.OnPlayerPassedWorldBorder += config => StartCoroutine(ResetPlayerAfterDelay(config));
     }
 
     private void SetupSplitCam()
@@ -53,22 +39,4 @@ public class PlayerController : MonoBehaviour
         if (context.action.name == inputActions.Driving.UseItem.name)
             itemHandler.TryUseItem();
     }
-
-    private IEnumerator ResetPlayerAfterDelay(PlayerConfiguration config)
-    {
-        yield return new WaitForSeconds(GlobalSettings.PlayerResetDelay);
-
-        ResetPlayerPosition(config);
-    }
-
-    private void ResetPlayerPosition(PlayerConfiguration config)
-    {
-        if (config.PlayerIndex != playerConfig.PlayerIndex)
-            return;
-
-        Transform resetPos = BaseGameMode.Instance.GetResetTransform(playerConfig.PlayerIndex);
-        carController.OverridePosition(resetPos.position + Vector3.up * 5f, resetPos.rotation);
-    }
-
-    public PlayerConfiguration GetConfig() => playerConfig;
 }

@@ -47,4 +47,6 @@ public class ItemHandler : MonoBehaviour
 
         OnHeldItemUpdated?.Invoke(heldItem);
     }
+
+    public bool HasItem() => heldItem != null;
 }

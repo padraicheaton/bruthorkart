@@ -8,6 +8,7 @@ public abstract class ObjectDatabase<T> : Singleton<ObjectDatabase<T>>
 
     public T First() => objects[0];
     public T Get(int index) => objects[index];
+    public T Random() => Extensions.GetRandom(objects);
     public int Next(int index)
     {
         int nextIndex = index + 1;
